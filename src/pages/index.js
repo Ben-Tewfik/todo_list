@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import logo from "../../public/logo.svg";
+import clipboard from "../../public/clipboard.svg";
 import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
@@ -30,6 +31,29 @@ export default function Home() {
             <FiPlusCircle className="w-4 h-4" />
           </button>
         </form>
+        {/* informations about tasks */}
+        <div className="pt-20 px-1 mb-6 flex justify-between capitalize text-[14px] text-gray200 font-bold">
+          <div className="flex items-center gap-3">
+            <h3 className="text-blue">tasks created</h3>
+            <span className="bg-gray400 text-[12px] w-6 h-5 rounded-full flex justify-center items-center">
+              0
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <h3 className="text-purple">completed</h3>
+            <span className="bg-gray400 text-[12px] w-6 h-5 rounded-full flex justify-center items-center">
+              0
+            </span>
+          </div>
+        </div>
+        {/* tasks container */}
+        <section className="border-t border-t-gray400 rounded-lg flex justify-center items-center flex-col gap-6 text-gray300 h-[244px]">
+          <Image src={clipboard} alt="clipboard" />
+          <p className="leading-[140%] text-center max-w-[366px]">
+            You don&apos;t have any tasks registered yet Create tasks and
+            organize your to-do items
+          </p>
+        </section>
       </div>
     </section>
   );
