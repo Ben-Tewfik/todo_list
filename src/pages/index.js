@@ -23,11 +23,11 @@ export default function Home() {
           <input
             type="text"
             placeHolder="add a new task"
-            className="bg-gray500 h-[54px] p-3 text-gray300 grow capitalize border border-gray700"
+            className="bg-gray500 h-[54px] p-3 text-gray300 grow capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
           />
-          <button className="bg-darkblue h-[54px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 focus-visible:outline-none">
+          <button className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300">
             create
-            <FiPlusCircle />
+            <FiPlusCircle className="w-4 h-4" />
           </button>
         </form>
       </div>
