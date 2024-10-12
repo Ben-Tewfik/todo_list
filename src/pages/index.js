@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import logo from "../../public/logo.svg";
-import clipboard from "../../public/clipboard.svg";
 import Image from "next/image";
+import EmptyTask from "../../components/EmptyTask";
 const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
@@ -47,13 +47,7 @@ export default function Home() {
           </div>
         </div>
         {/* tasks container */}
-        <section className="border-t border-t-gray400 rounded-lg flex justify-center items-center flex-col gap-6 text-gray300 h-[244px]">
-          <Image src={clipboard} alt="clipboard" />
-          <p className="leading-[140%] text-center max-w-[350px]">
-            You don&apos;t have any tasks registered yet Create tasks and
-            organize your to-do items
-          </p>
-        </section>
+        <EmptyTask />
       </div>
     </section>
   );
