@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
-import logo from "../public/logo.svg";
+import logo from "../../public/logo.svg";
 import Image from "next/image";
 import EmptyTask from "../components/EmptyTask";
 const inter = Inter({ subsets: ["latin"] });
