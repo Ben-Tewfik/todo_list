@@ -2,31 +2,57 @@ import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import logo from "../../public/logo.svg";
 import Image from "next/image";
-import EmptyTask from "../components/EmptyTask";
+import { useReducer } from "react";
+import reducer from "../../utils/reducer";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../utils/firebase-config";
 const inter = Inter({ subsets: ["latin"] });
+const initialState = { task: "", message: "", tasks: [] };
 export default function Todos() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // create todos and add them to firebase
+  async function createTodo() {
+    try {
+      await addDoc(collection(db, "todos"), { task: state.task });
+    } catch (error) {
+      // notofication for adding a new task or error later
+      console.log(error);
+    }
+  }
+
   return (
     <section className={`${inter.className} bg-gray600`}>
-      {/* title */}
+      {/* title and logo */}
       <div className="bg-gray700 h-[200px] flex justify-center items-center">
         <h1 className="text-darkPurple text-center text-[40px] font-black flex justify-center items-center">
           <Image src={logo} alt="Todo App Logo" width={22} height={36} />
           <span className="text-blue ml-3">to</span>do
         </h1>
       </div>
-      {/* list */}
+      {/* todo list */}
       <div
         className="w-[90vw] max-w-[736px] mx-auto relative"
         style={{ height: "calc(100vh - 200px)" }}
       >
         {/* form */}
-        <form className="absolute left-1/2 -translate-x-1/2 -top-7 w-full flex justify-center items-center gap-3">
+        <form
+          onSubmit={e => e.preventDefault()}
+          className="absolute left-1/2 -translate-x-1/2 -top-7 w-full flex justify-center items-center gap-3"
+        >
           <input
             type="text"
-            placeHolder="add a new task"
+            placeholder="add a new task"
             className="bg-gray500 h-[54px] p-3 text-gray300 grow capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+            value={state.task}
+            onChange={e =>
+              dispatch({ type: "ADD_TASK", payload: e.target.value })
+            }
           />
-          <button className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300">
+          <button
+            className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300"
+            onClick={createTodo}
+          >
             create
             <FiPlusCircle className="w-4 h-4" />
           </button>
@@ -49,7 +75,6 @@ export default function Todos() {
         {/* tasks container */}
         {/* <EmptyTask /> */}
         {/* tasks */}
-        <form></form>
       </div>
     </section>
   );
