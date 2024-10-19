@@ -1,8 +1,17 @@
+import { collection, deleteDoc, doc } from "firebase/firestore";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { db } from "../../utils/firebase-config";
 
-export default function SingleTask({ task }) {
-  console.log(task);
-
+export default function SingleTask({ task, id }) {
+  // function to delete the elment from firebase
+  async function deleteTask(id) {
+    const docRef = doc(db, "todos", id);
+    try {
+      await deleteDoc(docRef);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="bg-gray500 border border-gray400 rounded-lg p-4 text-[14px] text-gray100 leading-[140%] flex items-start gap-4">
       <input
@@ -12,7 +21,11 @@ export default function SingleTask({ task }) {
       <p className="grow peer-checked:line-through peer-checked:text-gray300 transition-all duration-300">
         {task}
       </p>
-      <div className="shrink-0 h-6 w-6 bg-gray500 flex justify-center items-center text-gray300 hover:text-danger hover:bg-gray400 rounded-[4px] cursor-pointer transition-all duration-300">
+
+      <div
+        onClick={() => deleteTask(id)}
+        className="shrink-0 h-6 w-6 bg-gray500 flex justify-center items-center text-gray300 hover:text-danger hover:bg-gray400 rounded-[4px] cursor-pointer transition-all duration-300"
+      >
         <FaRegTrashAlt className=" h-[14px] w-[12.48px]" />
       </div>
     </div>
