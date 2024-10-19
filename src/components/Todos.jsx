@@ -2,24 +2,41 @@ import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import logo from "../../public/logo.svg";
 import Image from "next/image";
-import { useReducer } from "react";
-import reducer from "../../utils/reducer";
+import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
+import EmptyTask from "./EmptyTask";
+import Tasks from "./Tasks";
 const inter = Inter({ subsets: ["latin"] });
 const initialState = { task: "", message: "", tasks: [] };
 export default function Todos() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
+  // state for adding task to firebae
+  const [task, setTask] = useState("");
+  // state for fetching tasks from firebase
+  const [tasks, setTasks] = useState([]);
   // create todos and add them to firebase
   async function createTodo() {
     try {
-      await addDoc(collection(db, "todos"), { task: state.task });
+      await addDoc(collection(db, "todos"), { task });
     } catch (error) {
       // notofication for adding a new task or error later
       console.log(error);
     }
   }
+  useEffect(() => {
+    async function getTodos() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "todos"));
+        const todos = querySnapshot.docs.map(doc => {
+          return { ...doc.data(), id: doc.id };
+        });
+        setTasks(todos);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTodos();
+  }, []);
 
   return (
     <section className={`${inter.className} bg-gray600`}>
@@ -44,10 +61,8 @@ export default function Todos() {
             type="text"
             placeholder="add a new task"
             className="bg-gray500 h-[54px] p-3 text-gray300 grow capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
-            value={state.task}
-            onChange={e =>
-              dispatch({ type: "ADD_TASK", payload: e.target.value })
-            }
+            value={task}
+            onChange={e => setTask(e.target.value)}
           />
           <button
             className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300"
@@ -72,9 +87,7 @@ export default function Todos() {
             </span>
           </div>
         </div>
-        {/* tasks container */}
-        {/* <EmptyTask /> */}
-        {/* tasks */}
+        {tasks.length < 1 ? <EmptyTask /> : <Tasks todos={tasks} />}
       </div>
     </section>
   );
