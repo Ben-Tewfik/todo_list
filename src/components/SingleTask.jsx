@@ -13,7 +13,7 @@ export default function SingleTask({ task, id }) {
     }
   }
   return (
-    <div className="bg-gray500 border border-gray400 rounded-lg p-4 text-[14px] text-gray100 leading-[140%] flex items-start gap-4">
+    <div className="bg-gray500 border capitalize border-gray400 rounded-lg p-4 text-[14px] text-gray100 leading-[140%] flex items-start gap-4">
       <input
         type="checkbox"
         className="peer cursor-pointer shrink-0 w-[17.45px] h-[17.45px] rounded-full appearance-none border border-blue hover:border-darkblue hover:bg-purple hover:opacity-20 checked:bg-darkPurple checked:border-darkPurple hover:checked:bg-purple hover:checked:border-purple hover:checked:opacity-100 flex items-center justify-center checked:after:content-['✔'] checked:after:w-[7.31px] checked:after:h-[4.69px] relative checked:after:absolute checked:after:bottom-3 checked:after:left-[2px] transition-all duration-300"
