@@ -3,7 +3,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import logo from "../../public/logo.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
 import EmptyTask from "./EmptyTask";
 import Tasks from "./Tasks";
@@ -18,6 +18,7 @@ export default function Todos() {
   async function createTodo() {
     try {
       await addDoc(collection(db, "todos"), { task });
+      setTask("");
     } catch (error) {
       // notofication for adding a new task or error later
       console.log(error);
@@ -26,11 +27,13 @@ export default function Todos() {
   useEffect(() => {
     async function getTodos() {
       try {
-        const querySnapshot = await getDocs(collection(db, "todos"));
-        const todos = querySnapshot.docs.map(doc => {
-          return { ...doc.data(), id: doc.id };
+        const unsubscribe = onSnapshot(collection(db, "todos"), snapshot => {
+          const todos = snapshot.docs.map(doc => {
+            return { ...doc.data(), id: doc.id };
+          });
+          setTasks(todos);
         });
-        setTasks(todos);
+        return () => unsubscribe();
       } catch (error) {
         console.log(error);
       }
