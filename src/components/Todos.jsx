@@ -1,14 +1,12 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
-import logo from "../../public/logo.svg";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
 import EmptyTask from "./EmptyTask";
 import Tasks from "./Tasks";
+import TodoLogo from "./TodoLogo";
 const inter = Inter({ subsets: ["latin"] });
-const initialState = { task: "", message: "", tasks: [] };
 export default function Todos() {
   // state for adding task to firebae
   const [task, setTask] = useState("");
@@ -44,12 +42,7 @@ export default function Todos() {
   return (
     <section className={`${inter.className} bg-gray600`}>
       {/* title and logo */}
-      <div className="bg-gray700 h-[200px] flex justify-center items-center">
-        <h1 className="text-darkPurple text-center text-[40px] font-black flex justify-center items-center">
-          <Image src={logo} alt="Todo App Logo" width={22} height={36} />
-          <span className="text-blue ml-3">to</span>do
-        </h1>
-      </div>
+      <TodoLogo />
       {/* todo list */}
       <div
         className="w-[90vw] max-w-[736px] mx-auto relative"
