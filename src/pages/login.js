@@ -1,3 +1,4 @@
+import Login from "@/components/Login";
 export default function login() {
-  return <div>login</div>;
+  return <Login />;
 }
