@@ -3,7 +3,7 @@ import TodoLogo from "./TodoLogo";
 const inter = Inter({ subsets: ["latin"] });
 export default function Login() {
   return (
-    <section className={`${inter.className} bg-gray600 h-screen`}>
+    <section className={`${inter.className}`}>
       <TodoLogo />
       <form
         onSubmit={e => e.preventDefault()}

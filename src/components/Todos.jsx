@@ -40,7 +40,7 @@ export default function Todos() {
   }, []);
 
   return (
-    <section className={`${inter.className} bg-gray600`}>
+    <section className={`${inter.className}`}>
       {/* title and logo */}
       <TodoLogo />
       {/* todo list */}
