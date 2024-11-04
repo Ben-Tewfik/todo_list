@@ -5,7 +5,7 @@ const AppContext = createContext();
 export const useGlobalContext = () => useContext(AppContext);
 
 export function AppProvider({ children }) {
-  const [toggleModal, setToggleModal] = useState(false);
+  const [toggleModal, setToggleModal] = useState(true);
 
   // function for opening the forgot password modal
   function openForgotPasswordModal() {
