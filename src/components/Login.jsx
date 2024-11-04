@@ -12,8 +12,8 @@ export default function Login() {
         className="w-full flex justify-center flex-col items-center gap-4 p-10 max-w-96 mx-auto"
       >
         <input
-          type="text"
-          placeholder="username"
+          type="email"
+          placeholder="email"
           className="bg-gray500 h-[54px] w-full p-3 text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
         <input
