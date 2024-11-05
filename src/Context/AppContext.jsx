@@ -1,4 +1,6 @@
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { createContext, useContext, useState } from "react";
+import { auth } from "../../utils/firebase-config";
 
 const AppContext = createContext();
 
@@ -15,9 +17,33 @@ export function AppProvider({ children }) {
   function closeForgotPasswordModal() {
     setToggleModal(true);
   }
+
+  // function for user to signUp
+  async function signup(email, password) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      // add tostify later
+      console.log(error);
+    }
+  }
+  // function for the user to signout
+  async function logout() {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <AppContext.Provider
-      value={{ closeForgotPasswordModal, openForgotPasswordModal, toggleModal }}
+      value={{
+        closeForgotPasswordModal,
+        openForgotPasswordModal,
+        toggleModal,
+        signup,
+        logout,
+      }}
     >
       {children}
     </AppContext.Provider>
