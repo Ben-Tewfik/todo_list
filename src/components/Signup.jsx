@@ -1,7 +1,12 @@
+import { useGlobalContext } from "@/Context/AppContext";
 import TodoLogo from "./TodoLogo";
 import { Inter } from "next/font/google";
+import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 export default function Signup() {
+  const { signup } = useGlobalContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <section className={`${inter.className}`}>
       <TodoLogo />
@@ -17,15 +22,23 @@ export default function Signup() {
         <input
           type="email"
           placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
           className="bg-gray500 h-[54px] w-full p-3 text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
         <input
           type="password"
           placeholder="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           className="bg-gray500 h-[54px] p-3 w-full text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
 
-        <button className="bg-darkblue w-full mt-5 p-3 text-white text-[14px] capitalize rounded-lg hover:bg-blue transition-all duration-300">
+        <button
+          onClick={() => signup(email, password)}
+          type="submit"
+          className="bg-darkblue w-full mt-5 p-3 text-white text-[14px] capitalize rounded-lg hover:bg-blue transition-all duration-300"
+        >
           Signup
         </button>
       </form>
