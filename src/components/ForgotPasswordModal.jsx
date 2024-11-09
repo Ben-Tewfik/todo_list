@@ -22,8 +22,8 @@ export default function ForgotPasswordModal() {
       >
         <input
           type="password"
-          placeholder="enter new password"
-          className="bg-gray500 h-[54px] p-3 w-full text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          placeholder="Enter New Password"
+          className="bg-gray500 h-[54px] p-3 w-full text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
 
         <button

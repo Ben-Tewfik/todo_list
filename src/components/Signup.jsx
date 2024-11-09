@@ -18,21 +18,21 @@ export default function Signup() {
         <input
           type="text"
           placeholder="Name"
-          className="bg-gray500 h-[54px] w-full p-3 text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          className="bg-gray500 h-[54px] w-full p-3 text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="bg-gray500 h-[54px] w-full p-3 text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          className="bg-gray500 h-[54px] w-full p-3 text-gray300  border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
         <input
           type="password"
-          placeholder="password"
+          placeholder="Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
-          className="bg-gray500 h-[54px] p-3 w-full text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          className="bg-gray500 h-[54px] p-3 w-full text-gray300  border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
         />
 
         <button

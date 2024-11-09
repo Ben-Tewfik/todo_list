@@ -58,8 +58,8 @@ export default function Todos() {
         >
           <input
             type="text"
-            placeholder="add a new task"
-            className="bg-gray500 h-[54px] p-3 text-gray300 grow capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+            placeholder="Add a New Task"
+            className="bg-gray500 h-[54px] p-3 text-gray300 grow border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
             value={task}
             onChange={e => setTask(e.target.value)}
           />
