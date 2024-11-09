@@ -15,6 +15,7 @@ export const useGlobalContext = () => useContext(AppContext);
 export function AppProvider({ children }) {
   const [toggleModal, setToggleModal] = useState(true);
   const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   // function for opening the forgot password modal
@@ -57,6 +58,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       setCurrentUser(user);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -70,6 +72,7 @@ export function AppProvider({ children }) {
         logout,
         signIn,
         currentUser,
+        loading,
       }}
     >
       {children}
