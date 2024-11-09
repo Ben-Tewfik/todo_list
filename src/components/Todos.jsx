@@ -1,7 +1,13 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import { useEffect, useState } from "react";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
 import EmptyTask from "./EmptyTask";
 import Tasks from "./Tasks";
@@ -11,6 +17,7 @@ import { useGlobalContext } from "@/Context/AppContext";
 const inter = Inter({ subsets: ["latin"] });
 export default function Todos() {
   const { logout, currentUser } = useGlobalContext();
+
   // state for adding task to firebae
   const [task, setTask] = useState("");
   // state for fetching tasks from firebase
@@ -18,29 +25,33 @@ export default function Todos() {
   // create todos and add them to firebase
   async function createTodo() {
     try {
-      await addDoc(collection(db, "todos"), { task });
+      await addDoc(collection(db, "todos"), { task, userId: currentUser.uid });
       setTask("");
     } catch (error) {
       // notofication for adding a new task or error later
       console.log(error);
     }
   }
+
   useEffect(() => {
-    async function getTodos() {
-      try {
-        const unsubscribe = onSnapshot(collection(db, "todos"), snapshot => {
-          const todos = snapshot.docs.map(doc => {
-            return { ...doc.data(), id: doc.id };
-          });
-          setTasks(todos);
+    if (!currentUser) return;
+    try {
+      // query
+      const q = query(
+        collection(db, "todos"),
+        where("userId", "==", currentUser?.uid)
+      );
+      const unsubscribe = onSnapshot(q, snapshot => {
+        const todos = snapshot.docs.map(doc => {
+          return { ...doc.data(), id: doc.id };
         });
-        return () => unsubscribe();
-      } catch (error) {
-        console.log(error);
-      }
+        setTasks(todos);
+      });
+      return () => unsubscribe();
+    } catch (error) {
+      console.log(error);
     }
-    getTodos();
-  }, []);
+  }, [currentUser]);
 
   return (
     <section className={`${inter.className}`}>
