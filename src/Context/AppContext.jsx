@@ -1,5 +1,10 @@
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { createContext, useContext, useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utils/firebase-config";
 
 const AppContext = createContext();
@@ -8,6 +13,7 @@ export const useGlobalContext = () => useContext(AppContext);
 
 export function AppProvider({ children }) {
   const [toggleModal, setToggleModal] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
 
   // function for opening the forgot password modal
   function openForgotPasswordModal() {
@@ -35,6 +41,21 @@ export function AppProvider({ children }) {
       console.log(error);
     }
   }
+  // function for the user to sign In
+  async function signIn(email, password) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // user state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setCurrentUser(user);
+    });
+    return unsubscribe;
+  }, []);
   return (
     <AppContext.Provider
       value={{
@@ -43,6 +64,8 @@ export function AppProvider({ children }) {
         toggleModal,
         signup,
         logout,
+        signIn,
+        currentUser,
       }}
     >
       {children}
