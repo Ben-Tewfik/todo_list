@@ -2,9 +2,12 @@ import { Inter } from "next/font/google";
 import TodoLogo from "./TodoLogo";
 import { useGlobalContext } from "@/Context/AppContext";
 import Link from "next/link";
+import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 export default function Login() {
-  const { openForgotPasswordModal } = useGlobalContext();
+  const { openForgotPasswordModal, signIn } = useGlobalContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <section className={`${inter.className}`}>
       <TodoLogo />
@@ -14,13 +17,17 @@ export default function Login() {
       >
         <input
           type="email"
-          placeholder="email"
-          className="bg-gray500 h-[54px] w-full p-3 text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          placeholder="Email"
+          className="bg-gray500 h-[54px] w-full p-3 text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
         />
         <input
           type="password"
-          placeholder="password"
-          className="bg-gray500 h-[54px] p-3 w-full text-gray300 capitalize border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          placeholder="Password"
+          className="bg-gray500 h-[54px] p-3 w-full text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
         />
         <button
           onClick={openForgotPasswordModal}
@@ -28,7 +35,10 @@ export default function Login() {
         >
           forgot password?
         </button>
-        <button className="bg-darkblue w-full mt-5 p-3 text-white text-[14px] capitalize rounded-lg hover:bg-blue transition-all duration-300">
+        <button
+          onClick={() => signIn(email, password)}
+          className="bg-darkblue w-full mt-5 p-3 text-white text-[14px] capitalize rounded-lg hover:bg-blue transition-all duration-300"
+        >
           login
         </button>
         <p className="text-gray100 capitalize mt-5">
