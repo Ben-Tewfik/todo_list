@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utils/firebase-config";
+import { useRouter } from "next/router";
 
 const AppContext = createContext();
 
@@ -14,6 +15,7 @@ export const useGlobalContext = () => useContext(AppContext);
 export function AppProvider({ children }) {
   const [toggleModal, setToggleModal] = useState(true);
   const [currentUser, setCurrentUser] = useState();
+  const router = useRouter();
 
   // function for opening the forgot password modal
   function openForgotPasswordModal() {
@@ -28,6 +30,7 @@ export function AppProvider({ children }) {
   async function signup(email, password) {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      router.push("/");
     } catch (error) {
       // add tostify later
       console.log(error);
@@ -45,6 +48,7 @@ export function AppProvider({ children }) {
   async function signIn(email, password) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
