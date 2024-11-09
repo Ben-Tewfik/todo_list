@@ -1,10 +1,16 @@
 import SingleTask from "./SingleTask";
 
-export default function Tasks({ todos }) {
+export default function Tasks({ todos, setCompletedTasks }) {
   return (
     <section className="flex flex-col gap-3 pb-20">
       {todos.map(todo => {
-        return <SingleTask key={todo.id} {...todo} />;
+        return (
+          <SingleTask
+            key={todo.id}
+            {...todo}
+            setCompletedTasks={setCompletedTasks}
+          />
+        );
       })}
     </section>
   );

@@ -22,6 +22,8 @@ export default function Todos() {
   const [task, setTask] = useState("");
   // state for fetching tasks from firebase
   const [tasks, setTasks] = useState([]);
+  // state for completed tasks
+  const [completedTasks, setCompletedTasks] = useState(0);
   // create todos and add them to firebase
   async function createTodo() {
     try {
@@ -31,6 +33,10 @@ export default function Todos() {
       // notofication for adding a new task or error later
       console.log(error);
     }
+  }
+  // condition for completed tasks
+  if (completedTasks > tasks.length) {
+    setCompletedTasks(tasks.length);
   }
 
   useEffect(() => {
@@ -86,18 +92,24 @@ export default function Todos() {
         <div className="pt-20 px-1 mb-6 flex justify-between capitalize text-[14px] text-gray200 font-bold">
           <div className="flex items-center gap-3">
             <h3 className="text-blue">tasks created</h3>
-            <span className="bg-gray400 text-[12px] w-6 h-5 rounded-full flex justify-center items-center">
-              0
+            <span className="bg-gray400 text-[12px] px-2 rounded-full flex justify-center items-center">
+              {tasks.length}
             </span>
           </div>
           <div className="flex items-center gap-3">
             <h3 className="text-purple">completed</h3>
-            <span className="bg-gray400 text-[12px] w-6 h-5 rounded-full flex justify-center items-center">
-              0
+            <span className="bg-gray400 text-[12px] px-2 rounded-full flex flex-col justify-center items-center">
+              {tasks.length === 0
+                ? "0"
+                : `${completedTasks} of ${tasks.length}`}
             </span>
           </div>
         </div>
-        {tasks.length < 1 ? <EmptyTask /> : <Tasks todos={tasks} />}
+        {tasks.length < 1 ? (
+          <EmptyTask />
+        ) : (
+          <Tasks todos={tasks} setCompletedTasks={setCompletedTasks} />
+        )}
       </div>
       {currentUser ? (
         <button
