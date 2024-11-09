@@ -10,7 +10,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { useGlobalContext } from "@/Context/AppContext";
 const inter = Inter({ subsets: ["latin"] });
 export default function Todos() {
-  const { logout } = useGlobalContext();
+  const { logout, currentUser } = useGlobalContext();
   // state for adding task to firebae
   const [task, setTask] = useState("");
   // state for fetching tasks from firebase
@@ -88,13 +88,15 @@ export default function Todos() {
         </div>
         {tasks.length < 1 ? <EmptyTask /> : <Tasks todos={tasks} />}
       </div>
-      <button
-        onClick={logout}
-        className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300 fixed bottom-3 right-5"
-      >
-        logout
-        <IoIosLogOut className="w-4 h-4" />
-      </button>
+      {currentUser ? (
+        <button
+          onClick={logout}
+          className="bg-darkblue h-[52px] text-white px-3 basis-[90px] text-[14px] flex justify-center items-center gap-1 capitalize rounded-lg hover:bg-blue transition-all duration-300 fixed bottom-3 right-5"
+        >
+          logout
+          <IoIosLogOut className="w-4 h-4" />
+        </button>
+      ) : null}
     </section>
   );
 }
