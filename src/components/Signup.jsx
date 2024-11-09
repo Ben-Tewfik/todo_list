@@ -2,6 +2,7 @@ import { useGlobalContext } from "@/Context/AppContext";
 import TodoLogo from "./TodoLogo";
 import { Inter } from "next/font/google";
 import { useState } from "react";
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 export default function Signup() {
   const { signup } = useGlobalContext();
@@ -41,6 +42,16 @@ export default function Signup() {
         >
           Signup
         </button>
+        <p className="text-gray100 capitalize mt-5">
+          have an account?
+          <Link
+            href={"/login"}
+            className="text-darkblue hover:text-blue transition-all duration-300"
+          >
+            {" "}
+            sign in
+          </Link>
+        </p>
       </form>
     </section>
   );

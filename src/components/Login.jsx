@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import TodoLogo from "./TodoLogo";
 import { useGlobalContext } from "@/Context/AppContext";
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 export default function Login() {
   const { openForgotPasswordModal } = useGlobalContext();
@@ -30,6 +31,16 @@ export default function Login() {
         <button className="bg-darkblue w-full mt-5 p-3 text-white text-[14px] capitalize rounded-lg hover:bg-blue transition-all duration-300">
           login
         </button>
+        <p className="text-gray100 capitalize mt-5">
+          don&apos;t have an account?
+          <Link
+            href={"/signup"}
+            className="text-darkblue hover:text-blue transition-all duration-300"
+          >
+            {" "}
+            sign up
+          </Link>
+        </p>
       </form>
     </section>
   );
