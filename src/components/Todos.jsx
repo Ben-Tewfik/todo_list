@@ -5,7 +5,9 @@ import {
   addDoc,
   collection,
   onSnapshot,
+  orderBy,
   query,
+  serverTimestamp,
   where,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase-config";
@@ -24,10 +26,17 @@ export default function Todos() {
   const [tasks, setTasks] = useState([]);
   // state for completed tasks
   const [completedTasks, setCompletedTasks] = useState(0);
+  // state for task stutus
+  const [taskStatus, setTaskStatus] = useState("");
   // create todos and add them to firebase
   async function createTodo() {
     try {
-      await addDoc(collection(db, "todos"), { task, userId: currentUser.uid });
+      await addDoc(collection(db, "todos"), {
+        task,
+        userId: currentUser.uid,
+        createdAt: serverTimestamp(),
+        taskStatus: taskStatus,
+      });
       setTask("");
     } catch (error) {
       // notofication for adding a new task or error later
@@ -45,7 +54,8 @@ export default function Todos() {
       // query
       const q = query(
         collection(db, "todos"),
-        where("userId", "==", currentUser?.uid)
+        where("userId", "==", currentUser?.uid),
+        orderBy("createdAt")
       );
       const unsubscribe = onSnapshot(q, snapshot => {
         const todos = snapshot.docs.map(doc => {
@@ -108,7 +118,12 @@ export default function Todos() {
         {tasks.length < 1 ? (
           <EmptyTask />
         ) : (
-          <Tasks todos={tasks} setCompletedTasks={setCompletedTasks} />
+          <Tasks
+            todos={tasks}
+            setCompletedTasks={setCompletedTasks}
+            taskStatus={taskStatus}
+            setTaskStatus={setTaskStatus}
+          />
         )}
       </div>
       {currentUser ? (
