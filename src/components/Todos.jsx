@@ -24,10 +24,6 @@ export default function Todos() {
   const [task, setTask] = useState("");
   // state for fetching tasks from firebase
   const [tasks, setTasks] = useState([]);
-  // state for completed tasks
-  const [completedTasks, setCompletedTasks] = useState(0);
-  // state for task stutus
-  const [taskStatus, setTaskStatus] = useState("");
   // create todos and add them to firebase
   async function createTodo() {
     try {
@@ -35,17 +31,13 @@ export default function Todos() {
         task,
         userId: currentUser.uid,
         createdAt: serverTimestamp(),
-        taskStatus: taskStatus,
+        taskStatus: false,
       });
       setTask("");
     } catch (error) {
       // notofication for adding a new task or error later
       console.log(error);
     }
-  }
-  // condition for completed tasks
-  if (completedTasks > tasks.length) {
-    setCompletedTasks(tasks.length);
   }
 
   useEffect(() => {
@@ -68,7 +60,8 @@ export default function Todos() {
       console.log(error);
     }
   }, [currentUser]);
-
+  // create array for to count completed tasks
+  const filteredTasks = tasks.filter(task => task.taskStatus === true);
   return (
     <section className={`${inter.className}`}>
       {/* title and logo */}
@@ -109,22 +102,13 @@ export default function Todos() {
           <div className="flex items-center gap-3">
             <h3 className="text-purple">completed</h3>
             <span className="bg-gray400 text-[12px] px-2 rounded-full flex flex-col justify-center items-center">
-              {tasks.length === 0
+              {filteredTasks.length === 0
                 ? "0"
-                : `${completedTasks} of ${tasks.length}`}
+                : `${filteredTasks.length} of ${tasks.length}`}
             </span>
           </div>
         </div>
-        {tasks.length < 1 ? (
-          <EmptyTask />
-        ) : (
-          <Tasks
-            todos={tasks}
-            setCompletedTasks={setCompletedTasks}
-            taskStatus={taskStatus}
-            setTaskStatus={setTaskStatus}
-          />
-        )}
+        {tasks.length < 1 ? <EmptyTask /> : <Tasks todos={tasks} />}
       </div>
       {currentUser ? (
         <button
