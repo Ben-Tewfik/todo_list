@@ -16,7 +16,9 @@ import Tasks from "./Tasks";
 import TodoLogo from "./TodoLogo";
 import { IoIosLogOut } from "react-icons/io";
 import { useGlobalContext } from "@/Context/AppContext";
+import { BeatLoader } from "react-spinners";
 const inter = Inter({ subsets: ["latin"] });
+
 export default function Todos() {
   const { logout, currentUser } = useGlobalContext();
 
@@ -24,6 +26,8 @@ export default function Todos() {
   const [task, setTask] = useState("");
   // state for fetching tasks from firebase
   const [tasks, setTasks] = useState([]);
+  // loading state
+  const [loading, setLoading] = useState(true);
   // create todos and add them to firebase
   async function createTodo() {
     try {
@@ -54,10 +58,12 @@ export default function Todos() {
           return { ...doc.data(), id: doc.id };
         });
         setTasks(todos);
+        setLoading(false);
       });
       return () => unsubscribe();
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }, [currentUser]);
   // create array for to count completed tasks
@@ -108,7 +114,19 @@ export default function Todos() {
             </span>
           </div>
         </div>
-        {tasks.length < 1 ? <EmptyTask /> : <Tasks todos={tasks} />}
+        {loading ? (
+          <BeatLoader
+            color="#4ea8de"
+            cssOverride={{
+              textAlign: "center",
+              marginTop: "100px",
+            }}
+          />
+        ) : tasks.length < 1 ? (
+          <EmptyTask />
+        ) : (
+          <Tasks todos={tasks} />
+        )}
       </div>
       {currentUser ? (
         <button
