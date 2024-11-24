@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { FiPlusCircle } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   addDoc,
   collection,
@@ -37,10 +38,10 @@ export default function Todos() {
         createdAt: serverTimestamp(),
         taskStatus: false,
       });
+      toast.success("Task added");
       setTask("");
     } catch (error) {
-      // notofication for adding a new task or error later
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
 
@@ -62,7 +63,7 @@ export default function Todos() {
       });
       return () => unsubscribe();
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
       setLoading(false);
     }
   }, [currentUser]);

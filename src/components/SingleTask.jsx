@@ -1,6 +1,7 @@
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { db } from "../../utils/firebase-config";
+import { toast } from "react-toastify";
 
 export default function SingleTask({ task, id, taskStatus }) {
   // function to delete the elment from firebase
@@ -8,8 +9,9 @@ export default function SingleTask({ task, id, taskStatus }) {
     const docRef = doc(db, "todos", id);
     try {
       await deleteDoc(docRef);
+      toast.success("Task Deleted");
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
   // function for counting the completed tasks
@@ -20,8 +22,9 @@ export default function SingleTask({ task, id, taskStatus }) {
     const docRef = doc(db, "todos", id);
     try {
       await updateDoc(docRef, { taskStatus: checked });
+      toast.success("Task Completed");
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
 

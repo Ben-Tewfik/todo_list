@@ -3,6 +3,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { auth } from "../../utils/firebase-config";
+import { toast } from "react-toastify";
 
 export default function ForgotPasswordModal() {
   const { closeForgotPasswordModal, toggleModal } = useGlobalContext();
@@ -12,9 +13,10 @@ export default function ForgotPasswordModal() {
   async function resetPassword() {
     try {
       await sendPasswordResetEmail(auth, email);
+      toast.success("Please check your email to reset your password");
       closeForgotPasswordModal();
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
   return (

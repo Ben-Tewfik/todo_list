@@ -7,6 +7,7 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../utils/firebase-config";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const AppContext = createContext();
 
@@ -33,8 +34,7 @@ export function AppProvider({ children }) {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push("/");
     } catch (error) {
-      // add tostify later
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
   // function for the user to signout
@@ -42,7 +42,7 @@ export function AppProvider({ children }) {
     try {
       await signOut(auth);
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
   // function for the user to sign In
@@ -51,7 +51,7 @@ export function AppProvider({ children }) {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/");
     } catch (error) {
-      console.log(error);
+      toast.error(`${error}`);
     }
   }
   // user state
