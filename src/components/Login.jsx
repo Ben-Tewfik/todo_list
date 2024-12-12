@@ -6,8 +6,21 @@ import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 export default function Login() {
   const { openForgotPasswordModal, signIn } = useGlobalContext();
+  // remove later these two states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [formData, setFormData] = useState({});
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+  });
+  // form validation
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
   return (
     <section className={`${inter.className}`}>
       <TodoLogo />
@@ -19,15 +32,20 @@ export default function Login() {
           type="email"
           placeholder="Email"
           className="bg-gray500 h-[54px] w-full p-3 text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          value={formData.email}
+          name="email"
+          onChange={e => handleChange(e)}
         />
+        {formErrors.email && (
+          <span className="text-red-600">{formErrors.email}</span>
+        )}
         <input
           type="password"
           placeholder="Password"
           className="bg-gray500 h-[54px] p-3 w-full text-gray300 border border-gray700 rounded-lg focus-visible:outline-none focus:border-darkPurple focus:text-gray100"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          value={formData.password}
+          name="password"
+          onChange={e => handleChange(e)}
         />
         <button
           onClick={openForgotPasswordModal}
